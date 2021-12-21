@@ -8,6 +8,7 @@ from homeassistant.const import (
     CONCENTRATION_PARTS_PER_MILLION,
     POWER_WATT,
     TEMP_CELSIUS,
+    TEMP_FAHRENHEIT,
     PERCENTAGE,
     PRESSURE_HPA,
     PRESSURE_INHG,
@@ -52,6 +53,7 @@ DATA_OPTIONS = "options"
 DATA_ECOWITT = "ecowitt_listener"
 DATA_STATION = "station"
 DATA_PASSKEY = "PASSKEY"
+#DATA_PASSKEY = "PASSWORD"
 DATA_STATIONTYPE = "stationtype"
 DATA_FREQ = "freq"
 DATA_MODEL = "model"
@@ -226,6 +228,14 @@ TYPE_WN34BATT5 = "tf_batt5"
 TYPE_WN34BATT6 = "tf_batt6"
 TYPE_WN34BATT7 = "tf_batt7"
 TYPE_WN34BATT8 = "tf_batt8"
+# Begin CCLEL specific sensors
+TYPE_BAROMIN = "baromin"
+TYPE_RAININ = "rainin"
+TYPE_INDOORHUMIDITY = "indoorhumidity"
+TYPE_INDOORTEMPF = "indoortempf"
+TYPE_DEWPTF = "dewptf"
+TYPE_UV_CCLEL = "UV"
+# End CCLEL specific sensors
 
 S_METRIC = 1
 S_IMPERIAL = 2
@@ -698,6 +708,25 @@ SENSOR_TYPES = {
     TYPE_WN34BATT8: ("Soil Temperature 8 Battery", ELECTRIC_POTENTIAL_VOLT,
                      TYPE_SENSOR, DEVICE_CLASS_VOLTAGE,
                      "mdi:battery", 0, STATE_CLASS_MEASUREMENT),
+    # Begin CCLEL specific sensors
+    TYPE_BAROMIN: ("Relative Pressure", PRESSURE_INHG,
+                   TYPE_SENSOR, DEVICE_CLASS_PRESSURE,
+                   "mdi:gauge", S_IMPERIAL, STATE_CLASS_MEASUREMENT),
+    TYPE_INDOORHUMIDITY: ("Indoor Humidity", PERCENTAGE,
+                          TYPE_SENSOR, DEVICE_CLASS_HUMIDITY,
+                          "mdi:water-percent", 0, STATE_CLASS_MEASUREMENT),
+    TYPE_INDOORTEMPF: ("Indoor Temperature", TEMP_FAHRENHEIT,
+                   TYPE_SENSOR, DEVICE_CLASS_TEMPERATURE,
+                   "mdi:thermometer", 0, STATE_CLASS_MEASUREMENT),
+    TYPE_DEWPTF: ("Dewpoint", TEMP_FAHRENHEIT,
+                  TYPE_SENSOR, DEVICE_CLASS_TEMPERATURE,
+                  "mdi:thermometer", 0, STATE_CLASS_MEASUREMENT),
+    TYPE_RAININ: ("Rain Rate", f"{LENGTH_INCHES}/{TIME_HOURS}",
+                  TYPE_SENSOR, None, "mdi:water", S_IMPERIAL,
+                  STATE_CLASS_TOTAL_INCREASING),
+    TYPE_UV_CCLEL: ("UV Index", UV_INDEX,
+                    TYPE_SENSOR, None, "mdi:sunglasses", 0, STATE_CLASS_MEASUREMENT),
+    # End CCLEL specific sensors
 }
 
 IGNORED_SENSORS = [
@@ -734,6 +763,12 @@ IGNORED_SENSORS = [
     'dewpoint8f',
     'mac',
     'fields',
+    # Begin CCLEL specific sensors
+    'ID',
+    'action',
+    'realtime',
+    'rtfreq',
+    # End CCLEL specific sensors
     DATA_PASSKEY,
     DATA_STATIONTYPE,
     DATA_FREQ,
